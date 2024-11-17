@@ -29,7 +29,7 @@ namespace ImageFunctions
 {
     public static class Thumbnail
     {
-        private static readonly string BLOB_STORAGE_CONNECTION_STRING = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+        private static readonly string BLOB_STORAGE_CONNECTION_STRING = Environment.GetEnvironmentVariable("MY_STORAGE_ACCOUNT");
 
         private static string GetBlobNameFromUrl(string bloblUrl)
         {
@@ -73,7 +73,7 @@ namespace ImageFunctions
         [FunctionName("Thumbnail")]
         public static async Task Run(
             [EventGridTrigger]EventGridEvent eventGridEvent,
-            [Blob("{data.url}", FileAccess.Read)] Stream input,
+            [Blob("{data.url}", FileAccess.Read, Connection = "MY_STORAGE_ACCOUNT")] Stream input,
             ILogger log)
         {
             try
